@@ -7,15 +7,15 @@ public class HeroFishScript : AnimatedScript {
 	override protected void Init () {
 		CurrentAnimation = AnimationType.GoUp;
 		FrameCount = 6;
-		TotalFrames = new int[(int)AnimationType.AnimationCount] {0,0,0,0,6,6};
-		BaseSpeed = new float[(int)AnimationType.AnimationCount] {0,0,0,0,5,5};
+		TotalFrames = new int[(int)AnimationType.AnimationCount] {6,6,0,0,0,0};
+		BaseSpeed = new float[(int)AnimationType.AnimationCount] {1,1,0,0,0,0};
 		CurrentFrame = 0;
 		TotalTime = 0;
 		Rotation = 0;
 	}
 	
 	//Use this to update Velocity & Rotation from Input
-	override protected void UpdateVR() {
+	protected void UpdateVR(GameObject Circle) {
 		UpdateVelocity(Input.GetAxis("Horizontal"),Input.GetAxis("Vertical"));
 	}
 	

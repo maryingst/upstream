@@ -4,12 +4,12 @@ using System.Collections;
 public class AnimatedScript : MonoBehaviour {
 
 		public enum AnimationType{
+		GoDown,
+		GoUp,
 		GoRight,
 		TurnLeft,
 		TurnRight,
 		GoLeft,
-		GoUp,
-		GoDown,
 		AnimationCount
 	}
 
@@ -30,7 +30,7 @@ public class AnimatedScript : MonoBehaviour {
 	protected virtual void Init(){
 	}
 	
-		protected void UpdateVelocity(float x,float z){
+	protected void UpdateVelocity(float x,float z){
 		Velocity[0] = x;
 		Velocity[1] = z;
 	}
