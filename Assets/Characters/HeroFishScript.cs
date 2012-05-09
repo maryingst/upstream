@@ -29,7 +29,7 @@ public class HeroFishScript : AnimatedScript {
 		Vector3 stayCenter;
 		stayCenter = transform.position;
 		stayCenter.y = 0;
-		transform.position = stayCenter;
+		//transform.position = stayCenter;
 	}
 	
 }
