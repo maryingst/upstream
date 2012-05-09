@@ -44,14 +44,25 @@ public class AnimatedScript : MonoBehaviour {
 	public virtual void Move(GameObject gobject){
 		string name = gobject.name;
 		AnimatedScript script = gobject.GetComponent(name + "Script") as AnimatedScript;
-		
-		if(Rotation.z!=0)
-			gobject.transform.RotateAround(Rotation, Vector3.forward, 20 * Time.deltaTime);
+
+				
+		if(Rotation.z!=0){
+			Vector3 direction;
+			if(Rotation.x-gobject.transform.position.x<=0)
+				direction = Vector3.forward;
+			else
+				direction = Vector3.back;
+			
+			gobject.transform.RotateAround(Rotation, direction, 20 * Time.deltaTime);
+			gobject.transform.eulerAngles= new Vector3(90,180,0);
+			//Vector3 temp = (gobject.transform.position-Rotation);
+			//gobject.transform.Rotate(direction,(Mathf.Atan2(temp.y,temp.x)*180/Mathf.PI),Space.World);
+		}
 		
 		Vector3 currentpos = new Vector3(script.Velocity[0],script.Velocity[1],0);
 		currentpos = currentpos + gobject.transform.localPosition;
 		gobject.transform.localPosition = currentpos;
-		gobject.transform.eulerAngles = new Vector3(90, 180, 0);		
+		
 	}
 	
 	protected void UpdateAnimation(){
