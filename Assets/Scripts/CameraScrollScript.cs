@@ -4,13 +4,18 @@ using System.Collections;
 
 public class CameraScrollScript : MonoBehaviour {
 	
+
 	
-protected float scrollSpeed = 0.15f;
+	
+
+protected float scrollSpeed;
 	
 	
 	// Use this for initialization
 	void Start () {
-	
+		
+							// TO-DO: CHANGE THIS TO A SPEED VARIABLE
+		scrollSpeed = 0.15f;
 	}
 	
 	// Update is called once per frame

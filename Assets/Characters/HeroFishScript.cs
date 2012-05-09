@@ -16,7 +16,7 @@ public class HeroFishScript : AnimatedScript {
 		
 	//Use this to Move Shabba within bounds
 	override public void Move(GameObject gobject){		
-		base.Move(gobject);
+		base.Move(gobject);						
 	}
 	
 	// Update is called once per frame
@@ -24,6 +24,12 @@ public class HeroFishScript : AnimatedScript {
 		TotalTime += Time.deltaTime;
 		UpdateVR();
 		UpdateAnimation();
+		
+		
+		Vector3 stayCenter;
+		stayCenter = transform.position;
+		stayCenter.y = 0;
+		transform.position = stayCenter;
 	}
 	
 }

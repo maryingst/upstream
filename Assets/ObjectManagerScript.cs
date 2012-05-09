@@ -70,6 +70,7 @@ public class ObjectManagerScript : MonoBehaviour {
 			if(birthEnum.Current==Default){
 				//increase the size if it hasn't been made static
 				circEnum.Current.transform.localScale = new Vector3(circEnum.Current.transform.localScale.x*speed, 1,circEnum.Current.transform.localScale.z*speed);
+				
 				//remove any that get too large (this shouldn't happen)
 				if(circEnum.Current.transform.localScale.x>50){
 					Destroy(circEnum.Current);
@@ -80,9 +81,11 @@ public class ObjectManagerScript : MonoBehaviour {
 				
 				//get distance between point and fish
 				float distance = Vector3.Distance(circEnum.Current.transform.position, Fish.transform.position);
-
-				if((circEnum.Current.transform.localScale.x)*5>=distance){
+	
+				//if the circle collides with the fish
+				if((circEnum.Current.transform.localScale.x)*5 >=distance){
 					script.UpdateRotationPoint(new Vector3(circEnum.Current.transform.position.x,circEnum.Current.transform.position.y,50));
+					circEnum.Current.SendMessage("SetStatic");
 					StaticCircleBirth.RemoveAt(count);
 					StaticCircleBirth.Insert(count,DateTime.Now);
 					break;
