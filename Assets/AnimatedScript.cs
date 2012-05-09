@@ -16,10 +16,10 @@ public class AnimatedScript : MonoBehaviour {
 	protected AnimationType CurrentAnimation;
 	protected int FrameCount, CurrentFrame;
 	protected float TotalTime;
-	protected int[]	TotalFrames; 
+	protected int[]	TotalFrames;
 	protected float[] BaseSpeed;
 	public float[] Velocity = new float[2] {0,0};		
-	public float Rotation;
+	public Vector3 Rotation;
 
 	
 	// Use this for initialization
@@ -34,25 +34,24 @@ public class AnimatedScript : MonoBehaviour {
 		Velocity[0] = x;
 		Velocity[1] = z;
 	}
-	protected void UpdateRotation(int direction,float rot){
-		Rotation = direction*rot;
+	public void UpdateRotationPoint(Vector3 Point){
+		Rotation = Point;
 	}
 	
 	protected virtual void UpdateVR(){
 	}
 
 	public virtual void Move(GameObject gobject){
-		string name = gobject.name.Remove(gobject.name.Length - 7,7);
+		string name = gobject.name;
 		AnimatedScript script = gobject.GetComponent(name + "Script") as AnimatedScript;
-		script.Rotation = 0;
-			
+		
+		if(Rotation.z!=0)
+			gobject.transform.RotateAround(Rotation, Vector3.forward, 20 * Time.deltaTime);
 		
 		Vector3 currentpos = new Vector3(script.Velocity[0],script.Velocity[1],0);
 		currentpos = currentpos + gobject.transform.localPosition;
 		gobject.transform.localPosition = currentpos;
-		gobject.transform.eulerAngles = new Vector3(90, 180, 0);
-		gobject.transform.Rotate(new Vector3(0,script.Rotation*45,0));
-		
+		gobject.transform.eulerAngles = new Vector3(90, 180, 0);		
 	}
 	
 	protected void UpdateAnimation(){

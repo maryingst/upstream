@@ -11,14 +11,9 @@ public class HeroFishScript : AnimatedScript {
 		BaseSpeed = new float[(int)AnimationType.AnimationCount] {1,1,0,0,0,0};
 		CurrentFrame = 0;
 		TotalTime = 0;
-		Rotation = 0;
+		Rotation = new Vector3(0,0,0);
 	}
-	
-	//Use this to update Velocity & Rotation from Input
-	protected void UpdateVR(GameObject Circle) {
-		UpdateVelocity(Input.GetAxis("Horizontal"),Input.GetAxis("Vertical"));
-	}
-	
+		
 	//Use this to Move Shabba within bounds
 	override public void Move(GameObject gobject){		
 		base.Move(gobject);

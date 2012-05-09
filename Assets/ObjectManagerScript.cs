@@ -28,6 +28,11 @@ public class ObjectManagerScript : MonoBehaviour {
 	void Update () {
 		HandleInput();
 		UpdateCircles(1.03f);
+		
+		string name = Fish.name;
+		AnimatedScript script = Fish.GetComponent(name + "Script") as AnimatedScript;		
+		script.Move(Fish);
+		
 	}
 	
 	void HandleInput(){
@@ -51,6 +56,9 @@ public class ObjectManagerScript : MonoBehaviour {
 	
 	void UpdateCircles(float speed){
 		
+		string name = Fish.name;
+		AnimatedScript script = Fish.GetComponent(name + "Script") as AnimatedScript;
+		
 		List<GameObject>.Enumerator circEnum = Circles.GetEnumerator();
 		List<DateTime>.Enumerator birthEnum = StaticCircleBirth.GetEnumerator();
 		DateTime Default = new DateTime();
@@ -72,9 +80,9 @@ public class ObjectManagerScript : MonoBehaviour {
 				
 				//get distance between point and fish
 				float distance = Vector3.Distance(circEnum.Current.transform.position, Fish.transform.position);
-				Debug.Log ("distance= " + distance.ToString());
-				Debug.Log (circEnum.Current.transform.localScale.x.ToString());
+
 				if((circEnum.Current.transform.localScale.x)*5>=distance){
+					script.UpdateRotationPoint(new Vector3(circEnum.Current.transform.position.x,circEnum.Current.transform.position.y,50));
 					StaticCircleBirth.RemoveAt(count);
 					StaticCircleBirth.Insert(count,DateTime.Now);
 					break;
