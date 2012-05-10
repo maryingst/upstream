@@ -15,7 +15,7 @@ protected float scrollSpeed;
 	void Start () {
 		
 							// TO-DO: CHANGE THIS TO A SPEED VARIABLE
-		scrollSpeed = 0.15f;
+		scrollSpeed = 0.12f;
 	}
 	
 	// Update is called once per frame
