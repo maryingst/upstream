@@ -29,9 +29,6 @@ public class BoundFish : MonoBehaviour {
 			newPos.x = wallWidth.x;
 			transform.position = newPos;
 			
-					
-			gameObject.renderer.material.color = Color.red;
-			
 			//CODE FOR DAMAGE
 			gameObject.SendMessage("ApplyDamage",10);
 			
@@ -44,16 +41,10 @@ public class BoundFish : MonoBehaviour {
 			newPos.x = wallWidth.y;
 			transform.position = newPos;
 			
-			gameObject.renderer.material.color = Color.red;
-			
 			//CODE FOR DAMAGE
 			gameObject.SendMessage("ApplyDamage",10);
 			
 				// TO-DO: CODE FOR BOUNCE-BACK
-		}
-		else
-		{
-			gameObject.renderer.material.color = Color.white;	
 		}
 		
 		if (transform.position.y < wallHeight.x)

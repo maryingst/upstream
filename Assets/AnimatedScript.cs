@@ -38,36 +38,33 @@ public class AnimatedScript : MonoBehaviour {
 		Rotation = Point;
 	}
 
-	public virtual void Move(GameObject gobject){
-		string name = gobject.name;
-		AnimatedScript script = gobject.GetComponent(name + "Script") as AnimatedScript;
-
-				
+	public virtual void Move(){
+						
 		if(Rotation.z!=0){
 			Vector3 direction = Vector3.right;
-			if(Rotation.x-gobject.transform.position.x<=-1)
+			if(Rotation.x-transform.position.x<=-1)
 				direction = Vector3.forward;
-			else if(Rotation.x-gobject.transform.position.x>=1 || 
-				(Rotation.x-gobject.transform.position.x>-1 && Rotation.y-gobject.transform.position.y>0))
+			else if(Rotation.x-transform.position.x>=1 || 
+				(Rotation.x-transform.position.x>-1 && Rotation.y-transform.position.y>0))
 				direction = Vector3.back;
 			else
-				gobject.transform.eulerAngles= new Vector3(90,180,0);
+				transform.eulerAngles= new Vector3(90,180,0);
 			
 			if(direction!=Vector3.right){
-				gobject.transform.RotateAround(Rotation, direction, (50.0f/gobject.transform.localScale.x) * Time.deltaTime);
-				gobject.transform.eulerAngles= new Vector3(90,180,0);
-				Vector3 temp = (gobject.transform.position-Rotation);
+				transform.RotateAround(Rotation, direction, (50.0f/transform.localScale.x) * Time.deltaTime);
+				transform.eulerAngles= new Vector3(90,180,0);
+				Vector3 temp = (transform.position-Rotation);
 				if(temp.x<0)
-					gobject.transform.Rotate(-direction,(Mathf.Atan2(temp.y,temp.x)*180/Mathf.PI)-180,Space.World);
+					transform.Rotate(-direction,(Mathf.Atan2(temp.y,temp.x)*180/Mathf.PI)-180,Space.World);
 				else
-					gobject.transform.Rotate(direction,(Mathf.Atan2(temp.y,temp.x)*180/Mathf.PI),Space.World);
+					transform.Rotate(direction,(Mathf.Atan2(temp.y,temp.x)*180/Mathf.PI),Space.World);
 				
 			}
 		}
 		
-		Vector3 currentpos = new Vector3(script.Velocity[0],script.Velocity[1],0) * Time.deltaTime;
-		currentpos = currentpos + gobject.transform.localPosition;
-		gobject.transform.localPosition = currentpos;
+		Vector3 currentpos = new Vector3(Velocity[0],Velocity[1],0) * Time.deltaTime;
+		currentpos = currentpos + transform.localPosition;
+		transform.localPosition = currentpos;
 		
 	}
 	

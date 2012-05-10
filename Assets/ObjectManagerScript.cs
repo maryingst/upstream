@@ -43,11 +43,6 @@ public class ObjectManagerScript : MonoBehaviour {
 	void Update () {
 		HandleInput();
 		UpdateCircles(1.03f);
-		
-		string name = Fish.name;
-		AnimatedScript script = Fish.GetComponent(name + "Script") as AnimatedScript;		
-		script.Move(Fish);
-		
 	}
 	
 	void HandleInput(){
@@ -128,5 +123,7 @@ public class ObjectManagerScript : MonoBehaviour {
 			script.UpdateRotationPoint(new Vector3(CurrentCircle.transform.position.x,CurrentCircle.transform.position.y,50));
 		else
 			script.UpdateRotationPoint(new Vector3(0,0,0));
-	}
+	}				
+			
 }
+

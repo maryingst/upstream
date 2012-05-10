@@ -21,13 +21,13 @@ public class HeroFishScript : AnimatedScript {
 		Rotation = new Vector3(0,0,0);
 		health = 100;
 		ishurt = false;
+		base.UpdateVelocity(0,-30);
 	}
 		
 	//Use this to Move Shabba within bounds
-	override public void Move(GameObject gobject){
+	override public void Move(){
 		if(!ishurt){
-			base.UpdateVelocity(0,-30);
-			base.Move(gobject);						
+			base.Move();						
 		}
 	}
 	
@@ -36,9 +36,11 @@ public class HeroFishScript : AnimatedScript {
 		TotalTime += Time.deltaTime;
 		UpdateAnimation();
 		
-		if(ishurt && (DateTime.Now - hurttime).Seconds>=2){
+		if(ishurt && (DateTime.Now - hurttime).Seconds>=1){
 			ishurt=false;
+			gameObject.renderer.material.color = Color.white;
 		}
+		Move ();
 	}
 	
 	private void ApplyDamage(int damage){
@@ -46,10 +48,15 @@ public class HeroFishScript : AnimatedScript {
 			health-=damage;
 			ishurt=true;
 			hurttime = DateTime.Now;
+			gameObject.renderer.material.color = Color.red;
 		}
 	}
 	
 	public bool checkishurt(){
 		return ishurt;
+	}
+	
+	public int GetHealth(){
+		return health;
 	}
 }
