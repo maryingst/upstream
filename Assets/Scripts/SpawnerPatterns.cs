@@ -10,7 +10,7 @@ using System.Collections;
 
 public class SpawnerPatterns : MonoBehaviour {
 	
-	
+// using these as #defines
 	static int _PATTERN_LENGTH = 10;
 	static int _NUM_PATTERNS = 3;
 	
@@ -31,12 +31,14 @@ public class SpawnerPatterns : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	
+		
+		// length of time between obstacle falls
 		float [] Pattern1 = new float[] { 1.0f, 1.0f, 0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 0.5f, 1.0f, 1.0f };
 		float [] Pattern2 = new float[] { 0.8f, 0.8f, 0.8f, 0.8f, 0.8f, 0.8f, 0.8f, 0.8f, 0.8f, 0.8f };
 		float [] Pattern3 = new float[] { 0.2f, 2.0f, 0.2f, 2.0f, 0.2f, 2.0f, 0.2f, 2.0f, 0.2f, 2.0f };
 		
 		
-		//Patterns[0] = Pattern1;
+		// Putting in the pattern array
 		for(int i = 0; i < _PATTERN_LENGTH; ++i)
 		{
 			Patterns[0,i] = Pattern1[i];

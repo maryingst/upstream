@@ -2,11 +2,6 @@ using UnityEngine;
 using System.Collections;
 
 public class ManagingScript : MonoBehaviour {
-	//SpawningScript
-	//float SpawnerLeftTimer;
-	//float SpawnerMidTimer;
-	//float SpawnerRightTimer;	
-	//int[] currPatterns = new int[3];
 	
 	
 	ObjectManagerScript getSpeedScript;
@@ -46,8 +41,8 @@ public class ManagingScript : MonoBehaviour {
 	void Update () {
 		gameSpeed = getSpeedScript.GetGameSpeed();
 		
-
-			if(onLast >= 3)
+		// If a new pattern is needed
+		if(onLast >= 3)
 		{
 			curPattern = Random.Range(0, numPatterns);
 			currWaitTime[0] = Random.Range(0.0f, 1.0f);
@@ -67,7 +62,7 @@ public class ManagingScript : MonoBehaviour {
 			cuePattern[2] = true;
 		}
 	
-			
+		// If cueing the new pattern for the spawners
 		if(cuePattern[0] == true)
 		{
 			currWaitTime[0] -= (gameSpeed * Time.deltaTime);

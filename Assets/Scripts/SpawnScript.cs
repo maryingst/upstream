@@ -37,8 +37,11 @@ public class SpawnScript : MonoBehaviour {
 		
 		gameSpeed = getSpeedScript.GetGameSpeed();
 		
+		// countdown to next obstacle
 		waitTime -= gameSpeed * Time.deltaTime;
 		
+		
+		// obstacle created, new countdown starts
 		if(waitTime <= 0.0f && curPlace >= 0)
 		{
 			Instantiate (prefabObstacle, transform.position, Quaternion.identity);
@@ -53,6 +56,8 @@ public class SpawnScript : MonoBehaviour {
 	
 	}
 	
+	
+	// Starting a new pattern: called by ManagingScript
 	public void Cue (int newPattern)
 	{
 		curPattern = newPattern;

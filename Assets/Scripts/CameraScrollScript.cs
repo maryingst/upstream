@@ -16,9 +16,8 @@ protected float scrollSpeed;
 	// Use this for initialization
 	void Start () {
 		
-							// TO-DO: CHANGE THIS TO A SPEED VARIABLE
-		getSpeedScript = refCamera.GetComponent("ObjectManagerScript") as ObjectManagerScript;
-		
+	
+		getSpeedScript = refCamera.GetComponent("ObjectManagerScript") as ObjectManagerScript;	
 		scrollSpeed = getSpeedScript.GetGameSpeed() * 0.1f;
 		
 			}
