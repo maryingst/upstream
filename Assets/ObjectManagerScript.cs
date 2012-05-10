@@ -26,7 +26,7 @@ public class ObjectManagerScript : MonoBehaviour {
 		StaticCircleBirth = new List<DateTime>();
 		CircleUID = 0;
 		CurrentCircle = null;
-		gameSpeed = 10.0f;
+		gameSpeed = 1.0f;
 	}
 	
 	

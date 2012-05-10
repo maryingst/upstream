@@ -7,6 +7,7 @@ public class CameraScrollScript : MonoBehaviour {
 	
 
 	public GameObject refCamera;
+	ObjectManagerScript getSpeedScript;
 	
 
 protected float scrollSpeed;
@@ -16,7 +17,7 @@ protected float scrollSpeed;
 	void Start () {
 		
 							// TO-DO: CHANGE THIS TO A SPEED VARIABLE
-		ObjectManagerScript getSpeedScript = refCamera.GetComponent("ObjectManagerScript") as ObjectManagerScript;
+		getSpeedScript = refCamera.GetComponent("ObjectManagerScript") as ObjectManagerScript;
 		
 		scrollSpeed = getSpeedScript.GetGameSpeed() * 0.1f;
 		
@@ -25,6 +26,7 @@ protected float scrollSpeed;
 	
 	// Update is called once per frame
 	void Update () {
+		scrollSpeed = getSpeedScript.GetGameSpeed() * 0.1f;
 		
 		Vector2 newOffset;
 		newOffset = gameObject.renderer.material.GetTextureOffset("_MainTex");
