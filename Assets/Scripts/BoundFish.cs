@@ -6,19 +6,22 @@ public class BoundFish : MonoBehaviour {
 	
 	public Transform refWalls;
 	private Vector2 wallWidth;
+	private Vector2 wallHeight;
 
 	// Use this for initialization
 	void Start () {
 		
-		wallWidth.x = refWalls.transform.position.x - (refWalls.transform.localScale.x * 5.0f);
-		wallWidth.y = refWalls.transform.position.x + (refWalls.transform.localScale.x * 5.0f);
+		wallWidth.x = refWalls.transform.position.x - (refWalls.transform.localScale.x * 4.0f);
+		wallWidth.y = refWalls.transform.position.x + (refWalls.transform.localScale.x * 4.0f);
+		wallHeight.x = Camera.main.ScreenToWorldPoint(new Vector3(0,0,50)).y;
+		wallHeight.y = Camera.main.ScreenToWorldPoint(new Vector3(0,Screen.height,50)).y;
 	
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
-		if (transform.position.x <= wallWidth.x)
+		if (transform.position.x < wallWidth.x)
 		{
 			
 			Vector3 newPos;
@@ -29,11 +32,12 @@ public class BoundFish : MonoBehaviour {
 					
 			gameObject.renderer.material.color = Color.red;
 			
-				// TO-DO: CODE FOR DAMAGE
+			//CODE FOR DAMAGE
+			gameObject.SendMessage("ApplyDamage",10);
 			
 				// TO-DO: CODE FOR BOUNCE-BACK
 		}
-		else if (transform.position.x >= wallWidth.y)
+		else if (transform.position.x > wallWidth.y)
 		{
 			Vector3 newPos;
 			newPos = transform.position;
@@ -41,13 +45,34 @@ public class BoundFish : MonoBehaviour {
 			transform.position = newPos;
 			
 			gameObject.renderer.material.color = Color.red;
-				// TO-DO: CODE FOR DAMAGE
+			
+			//CODE FOR DAMAGE
+			gameObject.SendMessage("ApplyDamage",10);
 			
 				// TO-DO: CODE FOR BOUNCE-BACK
 		}
 		else
 		{
 			gameObject.renderer.material.color = Color.white;	
+		}
+		
+		if (transform.position.y < wallHeight.x)
+		{
+			
+			Vector3 newPos;
+			newPos = transform.position;
+			newPos.y = wallHeight.x;
+			transform.position = newPos;
+		
+		}
+		else if (transform.position.y > wallHeight.y)
+		{
+			
+			Vector3 newPos;
+			newPos = transform.position;
+			newPos.y = wallHeight.y;
+			transform.position = newPos;
+			
 		}
 	
 	}

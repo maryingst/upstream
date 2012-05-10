@@ -10,6 +10,7 @@ public class ObjectManagerScript : MonoBehaviour {
 	public Transform Circle;
 	private List<GameObject> Circles;
 	private List<DateTime> StaticCircleBirth;
+	private GameObject CurrentCircle;
 	private int CircleUID;
 	
 	//Hero Object
@@ -22,6 +23,7 @@ public class ObjectManagerScript : MonoBehaviour {
 		Circles = new List<GameObject>();
 		StaticCircleBirth = new List<DateTime>();
 		CircleUID = 0;
+		CurrentCircle = null;
 	}
 	
 	// Update is called once per frame
@@ -56,8 +58,16 @@ public class ObjectManagerScript : MonoBehaviour {
 	
 	void UpdateCircles(float speed){
 		
-		string name = Fish.name;
-		AnimatedScript script = Fish.GetComponent(name + "Script") as AnimatedScript;
+		HeroFishScript script = Fish.GetComponent("HeroFishScript") as HeroFishScript;
+		
+		if(script.checkishurt()){
+			foreach(GameObject circle in Circles){
+				Destroy (circle);
+			}
+			Circles.Clear ();
+			StaticCircleBirth.Clear();
+			CurrentCircle=null;
+		}
 		
 		List<GameObject>.Enumerator circEnum = Circles.GetEnumerator();
 		List<DateTime>.Enumerator birthEnum = StaticCircleBirth.GetEnumerator();
@@ -83,9 +93,10 @@ public class ObjectManagerScript : MonoBehaviour {
 				float distance = Vector3.Distance(circEnum.Current.transform.position, Fish.transform.position);
 	
 				//if the circle collides with the fish
-				if((circEnum.Current.transform.localScale.x)*5 >=distance){
-					script.UpdateRotationPoint(new Vector3(circEnum.Current.transform.position.x,circEnum.Current.transform.position.y,50));
-					circEnum.Current.SendMessage("SetStatic");
+				if((circEnum.Current.transform.localScale.x)*5 >=distance){					
+					//circEnum.Current.SendMessage("SetStatic");
+					circEnum.Current.renderer.material.color = Color.red;
+					CurrentCircle = circEnum.Current;
 					StaticCircleBirth.RemoveAt(count);
 					StaticCircleBirth.Insert(count,DateTime.Now);
 					break;
@@ -100,5 +111,9 @@ public class ObjectManagerScript : MonoBehaviour {
 			}
 			count++;
 		}
+		if(CurrentCircle)
+			script.UpdateRotationPoint(new Vector3(CurrentCircle.transform.position.x,CurrentCircle.transform.position.y,50));
+		else
+			script.UpdateRotationPoint(new Vector3(0,0,0));
 	}
 }

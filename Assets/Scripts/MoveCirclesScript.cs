@@ -11,7 +11,7 @@ protected bool stopped;
 	void Start () {
 	
 							/// TO-DO:  CHANGE THIS TO A SPEED VARIABLE
-		scrollSpeed = 50.0f;
+		scrollSpeed = 30.0f;
 		stopped = false;
 		
 	}

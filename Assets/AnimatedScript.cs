@@ -30,15 +30,12 @@ public class AnimatedScript : MonoBehaviour {
 	protected virtual void Init(){
 	}
 	
-	protected void UpdateVelocity(float x,float z){
+	public void UpdateVelocity(float x,float z){
 		Velocity[0] = x;
 		Velocity[1] = z;
 	}
 	public void UpdateRotationPoint(Vector3 Point){
 		Rotation = Point;
-	}
-	
-	protected virtual void UpdateVR(){
 	}
 
 	public virtual void Move(GameObject gobject){
@@ -56,10 +53,8 @@ public class AnimatedScript : MonoBehaviour {
 			else
 				gobject.transform.eulerAngles= new Vector3(90,180,0);
 			
-			
-			
 			if(direction!=Vector3.right){
-				gobject.transform.RotateAround(Rotation, direction, 20 * Time.deltaTime);
+				gobject.transform.RotateAround(Rotation, direction, (50.0f/gobject.transform.localScale.x) * Time.deltaTime);
 				gobject.transform.eulerAngles= new Vector3(90,180,0);
 				Vector3 temp = (gobject.transform.position-Rotation);
 				if(temp.x<0)
@@ -70,25 +65,15 @@ public class AnimatedScript : MonoBehaviour {
 			}
 		}
 		
-		Vector3 currentpos = new Vector3(script.Velocity[0],script.Velocity[1],0);
+		Vector3 currentpos = new Vector3(script.Velocity[0],script.Velocity[1],0) * Time.deltaTime;
 		currentpos = currentpos + gobject.transform.localPosition;
 		gobject.transform.localPosition = currentpos;
 		
 	}
 	
 	protected void UpdateAnimation(){
-		float Speed = Mathf.Sqrt(Velocity[0]*Velocity[0]+Velocity[1]*Velocity[1]) + BaseSpeed[(int)CurrentAnimation];
-		if(CurrentAnimation==AnimationType.GoDown && Velocity[1]>0){
-			CurrentAnimation=AnimationType.GoUp;
-			CurrentFrame = TotalFrames[(int)CurrentAnimation] - CurrentFrame - 1;
-			TotalTime = 0;
-		}
-		else if(CurrentAnimation == AnimationType.GoUp && Velocity[1]<0){
-			CurrentAnimation=AnimationType.GoDown;
-			CurrentFrame = TotalFrames[(int)CurrentAnimation] - CurrentFrame - 1;
-			TotalTime = 0;
-		}
-		else if(TotalTime > (0.1f/Speed)){
+		float Speed = BaseSpeed[(int)CurrentAnimation];
+		if(TotalTime > (0.1f/Speed)){
 			CurrentFrame++;
 			TotalTime = 0;
 			CurrentFrame = CurrentFrame%TotalFrames[(int)CurrentAnimation];
