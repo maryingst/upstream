@@ -13,6 +13,8 @@ public class ObjectManagerScript : MonoBehaviour {
 	private GameObject CurrentCircle;
 	private int CircleUID;
 	
+	public float gameSpeed;
+	
 	//Hero Object
 	public GameObject Fish;
 	
@@ -24,6 +26,17 @@ public class ObjectManagerScript : MonoBehaviour {
 		StaticCircleBirth = new List<DateTime>();
 		CircleUID = 0;
 		CurrentCircle = null;
+		gameSpeed = 10.0f;
+	}
+	
+	
+	public void SetGameSpeed(float newSpeed)
+	{
+		gameSpeed = newSpeed;
+	}
+	public float GetGameSpeed()
+	{
+		return gameSpeed;
 	}
 	
 	// Update is called once per frame

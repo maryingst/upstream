@@ -1,11 +1,12 @@
 using UnityEngine;
+using System;
 using System.Collections;
 
 
 public class CameraScrollScript : MonoBehaviour {
 	
 
-	
+	public GameObject refCamera;
 	
 
 protected float scrollSpeed;
@@ -15,8 +16,12 @@ protected float scrollSpeed;
 	void Start () {
 		
 							// TO-DO: CHANGE THIS TO A SPEED VARIABLE
-		scrollSpeed = 0.12f;
-	}
+		ObjectManagerScript getSpeedScript = refCamera.GetComponent("ObjectManagerScript") as ObjectManagerScript;
+		
+		scrollSpeed = getSpeedScript.GetGameSpeed() * 0.1f;
+		
+			}
+
 	
 	// Update is called once per frame
 	void Update () {
@@ -26,10 +31,6 @@ protected float scrollSpeed;
 		newOffset.y += scrollSpeed * Time.deltaTime;
 		
 		gameObject.renderer.material.SetTextureOffset("_MainTex", newOffset);
-		
-	//	gameObject.renderer.material.SetTextureOffset( "riverbed",
-	//		gameObject.renderer.material.GetTextureOffset() + scrollSpeed * Time.deltaTime);
-		
-		//Material.SetTextureOffset( Material.GetTetureOffset() += scrollSpeed * Time.deltaTime);
+
 	}
 }
