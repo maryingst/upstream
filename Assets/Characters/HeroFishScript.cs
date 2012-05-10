@@ -27,7 +27,32 @@ public class HeroFishScript : AnimatedScript {
 	//Use this to Move Shabba within bounds
 	override public void Move(){
 		if(!ishurt){
+			Rotate ();
 			base.Move();						
+		}
+	}
+	
+	public void Rotate(){
+		if(Rotation.z!=0){
+			Vector3 direction = Vector3.right;
+			if(Rotation.x-transform.position.x<=-1)
+				direction = Vector3.forward;
+			else if(Rotation.x-transform.position.x>=1 || 
+				(Rotation.x-transform.position.x>-1 && Rotation.y-transform.position.y>0))
+				direction = Vector3.back;
+			else
+				transform.eulerAngles= new Vector3(90,180,0);
+			
+			if(direction!=Vector3.right){
+				transform.RotateAround(Rotation, direction, (50.0f/transform.localScale.x) * Time.deltaTime);
+				transform.eulerAngles= new Vector3(90,180,0);
+				Vector3 temp = (transform.position-Rotation);
+				if(temp.x<0)
+					transform.Rotate(-direction,(Mathf.Atan2(temp.y,temp.x)*180/Mathf.PI)-180,Space.World);
+				else
+					transform.Rotate(direction,(Mathf.Atan2(temp.y,temp.x)*180/Mathf.PI),Space.World);
+				
+			}
 		}
 	}
 	

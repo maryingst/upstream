@@ -7,6 +7,7 @@ public class BoundFish : MonoBehaviour {
 	public Transform refWalls;
 	private Vector2 wallWidth;
 	private Vector2 wallHeight;
+	HeroFishScript script;
 
 	// Use this for initialization
 	void Start () {
@@ -15,6 +16,8 @@ public class BoundFish : MonoBehaviour {
 		wallWidth.y = refWalls.transform.position.x + (refWalls.transform.localScale.x * 4.0f);
 		wallHeight.x = Camera.main.ScreenToWorldPoint(new Vector3(0,0,50)).y;
 		wallHeight.y = Camera.main.ScreenToWorldPoint(new Vector3(0,Screen.height,50)).y;
+		
+		script = gameObject.GetComponent("HeroFishScript") as HeroFishScript;
 	
 	}
 	
@@ -49,7 +52,7 @@ public class BoundFish : MonoBehaviour {
 		
 		if (transform.position.y < wallHeight.x)
 		{
-			
+			script.Rotate();
 			Vector3 newPos;
 			newPos = transform.position;
 			newPos.y = wallHeight.x;
@@ -58,7 +61,7 @@ public class BoundFish : MonoBehaviour {
 		}
 		else if (transform.position.y > wallHeight.y)
 		{
-			
+			script.Rotate();
 			Vector3 newPos;
 			newPos = transform.position;
 			newPos.y = wallHeight.y;

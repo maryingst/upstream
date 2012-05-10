@@ -124,6 +124,6 @@ public class ObjectManagerScript : MonoBehaviour {
 		else
 			script.UpdateRotationPoint(new Vector3(0,0,0));
 	}				
-			
+
 }
 
