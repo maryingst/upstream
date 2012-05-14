@@ -15,6 +15,7 @@ public class ObjectManagerScript : MonoBehaviour {
 	private int CircleUID;
 	
 	public float gameSpeed;
+	private HeroFishScript script;
 	
 	//Hero Object
 	public GameObject Fish;
@@ -31,8 +32,20 @@ public class ObjectManagerScript : MonoBehaviour {
 		CircleUID = 0;
 		CurrentCircle = null;
 		gameSpeed = 1.0f;
+		script = Fish.GetComponent("HeroFishScript") as HeroFishScript;
 	}
 	
+	void OnGUI () {
+		
+		GUI.TextArea (new Rect (10,10,75,20), "Health: " + (script.GetHealth()).ToString());
+		
+		if(script.GetHealth()==0){
+			if(GUI.Button(new Rect (Screen.width/2-30,Screen.height/2-10,60,20),new GUIContent ("Restart"))){
+				 Application.LoadLevel("Upstream");
+			}
+		}
+			
+	}
 	
 	public void SetGameSpeed(float newSpeed)
 	{
@@ -75,16 +88,6 @@ public class ObjectManagerScript : MonoBehaviour {
 	void UpdateCircles(float speed){
 		
 		HeroFishScript script = Fish.GetComponent("HeroFishScript") as HeroFishScript;
-		
-		if(script.checkishurt()){
-			foreach(GameObject circle in Circles){
-				Destroy (circle);
-			}
-			Circles.Clear ();
-			StaticCircleBirth.Clear();
-			CircleBirth.Clear();
-			CurrentCircle=null;
-		}
 		
 		List<GameObject>.Enumerator circEnum = Circles.GetEnumerator();
 		List<DateTime>.Enumerator birthEnum = CircleBirth.GetEnumerator();

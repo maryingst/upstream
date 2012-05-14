@@ -21,7 +21,7 @@ public class SpawnScript : MonoBehaviour {
 	void Start () {
 		
 		getSpeedScript = refCamera.GetComponent("ObjectManagerScript") as ObjectManagerScript;
-		gameSpeed = getSpeedScript.GetGameSpeed();
+		gameSpeed = getSpeedScript.GetGameSpeed()/2f;
 		
 		waitTime = 100.0f;
 		curPlace = 0;
@@ -35,7 +35,7 @@ public class SpawnScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		gameSpeed = getSpeedScript.GetGameSpeed();
+		gameSpeed = getSpeedScript.GetGameSpeed()/2f;
 		
 		// countdown to next obstacle
 		waitTime -= gameSpeed * Time.deltaTime;

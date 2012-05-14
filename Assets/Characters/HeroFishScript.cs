@@ -26,10 +26,8 @@ public class HeroFishScript : AnimatedScript {
 		
 	//Use this to Move Shabba within bounds
 	override public void Move(){
-		if(!ishurt){
 			Rotate ();
 			base.Move();						
-		}
 	}
 	
 	public void Rotate(){
@@ -70,12 +68,21 @@ public class HeroFishScript : AnimatedScript {
 		Move ();
 	}
 	
+	void OnTriggerEnter(Collider other) {
+        if(other.gameObject.name.Contains("Obstacle"))
+			ApplyDamage (10);
+    }
+	
 	private void ApplyDamage(int damage){
 		if(!ishurt){
 			health-=damage;
-			ishurt=true;
-			hurttime = DateTime.Now;
-			gameObject.renderer.material.color = Color.red;
+			if(health>0){
+				ishurt=true;
+				hurttime = DateTime.Now;
+				gameObject.renderer.material.color = Color.red;
+			}
+			else
+				health=0;
 		}
 	}
 	
