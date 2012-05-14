@@ -10,6 +10,7 @@ public class ObjectManagerScript : MonoBehaviour {
 	public Transform Circle;
 	private List<GameObject> Circles;
 	private List<DateTime> StaticCircleBirth;
+	private List<DateTime> CircleBirth;
 	private GameObject CurrentCircle;
 	private int CircleUID;
 	
@@ -17,6 +18,8 @@ public class ObjectManagerScript : MonoBehaviour {
 	
 	//Hero Object
 	public GameObject Fish;
+	//Water Object
+	public GameObject Water;
 	
 	// Use this for initialization
 	void Start () {
@@ -24,6 +27,7 @@ public class ObjectManagerScript : MonoBehaviour {
 		PointToCamera.eulerAngles = new Vector3(90,180,0);
 		Circles = new List<GameObject>();
 		StaticCircleBirth = new List<DateTime>();
+		CircleBirth = new List<DateTime>();
 		CircleUID = 0;
 		CurrentCircle = null;
 		gameSpeed = 1.0f;
@@ -46,8 +50,10 @@ public class ObjectManagerScript : MonoBehaviour {
 	}
 	
 	void HandleInput(){
+		
+		RippleWaterScript waterscript = Water.GetComponent("RippleWaterScript") as RippleWaterScript;
 		//if left click
-		if(Input.GetMouseButtonDown(0)){
+		if(Input.GetMouseButtonDown(0) && Circles.Count < 5){
 			//find the location of click and create a circle
 			Vector3 Circlepoint = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x,Input.mousePosition.y,50));
 			Instantiate(Circle,	Circlepoint,PointToCamera);
@@ -59,7 +65,9 @@ public class ObjectManagerScript : MonoBehaviour {
 			
 			//add the new circle to our list
 			Circles.Add(NewCircle);
+			CircleBirth.Add(DateTime.Now);
 			StaticCircleBirth.Add(new DateTime());
+			waterscript.AddRipple(NewCircle.transform.position,DateTime.Now);
 			
 		}
 	}
@@ -74,24 +82,28 @@ public class ObjectManagerScript : MonoBehaviour {
 			}
 			Circles.Clear ();
 			StaticCircleBirth.Clear();
+			CircleBirth.Clear();
 			CurrentCircle=null;
 		}
 		
 		List<GameObject>.Enumerator circEnum = Circles.GetEnumerator();
-		List<DateTime>.Enumerator birthEnum = StaticCircleBirth.GetEnumerator();
+		List<DateTime>.Enumerator birthEnum = CircleBirth.GetEnumerator();
+		List<DateTime>.Enumerator staticbirthEnum = StaticCircleBirth.GetEnumerator();
 		DateTime Default = new DateTime();
 		int count = 0;
 		
 		while(circEnum.MoveNext())
 		{
 			birthEnum.MoveNext();
-			if(birthEnum.Current==Default){
-				//increase the size if it hasn't been made static
-				circEnum.Current.transform.localScale = new Vector3(circEnum.Current.transform.localScale.x*speed, 1,circEnum.Current.transform.localScale.z*speed);
-				
+			staticbirthEnum.MoveNext();
+			
+			MoveCirclesScript circlescript = circEnum.Current.GetComponent("MoveCirclesScript") as MoveCirclesScript;
+			if(staticbirthEnum.Current==Default){
+					
 				//remove any that get too large (this shouldn't happen)
-				if(circEnum.Current.transform.localScale.x>50){
+				if(circlescript.GetRadius()>500){
 					Destroy(circEnum.Current);
+					CircleBirth.RemoveAt(count);
 					StaticCircleBirth.RemoveAt(count);
 					Circles.RemoveAt(count);
 					break;
@@ -101,9 +113,8 @@ public class ObjectManagerScript : MonoBehaviour {
 				float distance = Vector3.Distance(circEnum.Current.transform.position, Fish.transform.position);
 	
 				//if the circle collides with the fish
-				if((circEnum.Current.transform.localScale.x)*5 >=distance){					
-					//circEnum.Current.SendMessage("SetStatic");
-					circEnum.Current.renderer.material.color = Color.red;
+				if(circlescript.GetRadius() >=distance){					
+					circEnum.Current.SendMessage("SetStatic");
 					CurrentCircle = circEnum.Current;
 					StaticCircleBirth.RemoveAt(count);
 					StaticCircleBirth.Insert(count,DateTime.Now);
@@ -111,12 +122,19 @@ public class ObjectManagerScript : MonoBehaviour {
 				}				
 			}
 			//remove if it has been static for 2 seconds
-			else if((DateTime.Now - birthEnum.Current).Seconds > 2){
+			else if((DateTime.Now - staticbirthEnum.Current).Seconds > 2){
 				Destroy(circEnum.Current);
 				StaticCircleBirth.RemoveAt(count);
+				CircleBirth.RemoveAt(count);
 				Circles.RemoveAt(count);
 				break;
 			}
+			
+			//Add Ripple
+			circEnum.Current.SendMessage("Move");
+			
+			
+						
 			count++;
 		}
 		if(CurrentCircle)

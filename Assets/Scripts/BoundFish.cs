@@ -50,12 +50,11 @@ public class BoundFish : MonoBehaviour {
 				// TO-DO: CODE FOR BOUNCE-BACK
 		}
 		
-		if (transform.position.y < wallHeight.x)
+		if (transform.position.y < wallHeight.x+transform.localScale.y*15)
 		{
-			script.Rotate();
 			Vector3 newPos;
 			newPos = transform.position;
-			newPos.y = wallHeight.x;
+			newPos.y = wallHeight.x+transform.localScale.y*15;
 			transform.position = newPos;
 		
 		}
