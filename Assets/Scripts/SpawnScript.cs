@@ -3,13 +3,14 @@ using System.Collections;
 
 public class SpawnScript : MonoBehaviour {
 	
-	int curPattern;
-	int curPlace;
+	
+	int numSpawner;
+	int numCycles;
 	float waitTime;
+	
 	public GameObject parentSpawner;
 	SpawnerPatterns patterns;
 	ManagingScript manager;
-	int patternLength;
 	
 	float gameSpeed;
 	public GameObject refCamera;
@@ -24,10 +25,48 @@ public class SpawnScript : MonoBehaviour {
 		gameSpeed = getSpeedScript.GetGameSpeed()/2f;
 		
 		waitTime = 100.0f;
-		curPlace = 0;
+		numCycles = 0;
+
+		     if (gameObject.CompareTag("Left"))
+		{	numSpawner = 0; 
+			
+			Vector3 newPos = transform.position;
+			newPos.y = 50;
+		Instantiate (prefabObstacle, newPos, Quaternion.identity);}
+		
+		else if (gameObject.CompareTag("MidLeft"))
+		{	numSpawner = 1; 
+			
+			Vector3 newPos = transform.position;
+			newPos.y = 50;
+		Instantiate (prefabObstacle, newPos, Quaternion.identity);}
+		
+		
+		else if (gameObject.CompareTag("Mid"))
+		{	numSpawner = 2; 
+			
+			Vector3 newPos = transform.position;
+			newPos.y = 50;
+		Instantiate (prefabObstacle, newPos, Quaternion.identity);}
+		
+		
+		else if (gameObject.CompareTag("MidRight"))
+		{	numSpawner = 3; 
+			
+			Vector3 newPos = transform.position;
+			newPos.y = 50;
+		Instantiate (prefabObstacle, newPos, Quaternion.identity);}
+		
+		
+		else if (gameObject.CompareTag("Right"))
+		{	numSpawner = 4; 
+			
+			Vector3 newPos = transform.position;
+			newPos.y = 50;
+		Instantiate (prefabObstacle, newPos, Quaternion.identity);}
+		
 		patterns = parentSpawner.GetComponent("SpawnerPatterns") as SpawnerPatterns;
 		manager = parentSpawner.GetComponent("ManagingScript") as ManagingScript;
-		patternLength = patterns.GetPatternLength();
 		
 	
 	}
@@ -38,19 +77,19 @@ public class SpawnScript : MonoBehaviour {
 		gameSpeed = getSpeedScript.GetGameSpeed()/2f;
 		
 		// countdown to next obstacle
-		waitTime -= gameSpeed * Time.deltaTime;
+		waitTime -= Time.deltaTime;
 		
 		
 		// obstacle created, new countdown starts
-		if(waitTime <= 0.0f && curPlace >= 0)
+		if(waitTime <= 0.0f && numCycles < 10)
 		{
 			Instantiate (prefabObstacle, transform.position, Quaternion.identity);
-			waitTime = patterns.GetTime(curPattern, curPlace);
-			++curPlace;
-			if(curPlace >= 10)
+			waitTime = gameSpeed * 30.0f;
+			--numCycles;
+			if(numCycles <= 0)
 			{
 				manager.addLast();
-				curPlace = -1;
+				numCycles = 10;
 			}
 		}
 	
@@ -58,11 +97,10 @@ public class SpawnScript : MonoBehaviour {
 	
 	
 	// Starting a new pattern: called by ManagingScript
-	public void Cue (int newPattern)
+	public void Cue (int newPattern, int newCycles)
 	{
-		curPattern = newPattern;
-		curPlace = 0;
-		waitTime = 0.0f;
-				
+		//curPattern = newPattern;
+		numCycles = newCycles; //manager.GetCycles();
+		waitTime = patterns.GetTime(newPattern, numSpawner);				
 	}
 }

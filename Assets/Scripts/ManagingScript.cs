@@ -5,30 +5,37 @@ public class ManagingScript : MonoBehaviour {
 	
 	
 	ObjectManagerScript getSpeedScript;
-	SpawnScript[] spawners = new SpawnScript[3];
-	float[] currWaitTime = new float[3];
+	SpawnScript[] spawners = new SpawnScript[5];
+	
 	int onLast;
 	int numPatterns;
+	int numCycles;
 	int curPattern;
-	bool[] cuePattern = new bool[3];
+	bool cuePatterns;
 	float gameSpeed;
+	
+	
 	public GameObject refCamera;
 	public Transform spawnerLeft;
 	public Transform spawnerMid;
 	public Transform spawnerRight;
+	public Transform spawnerMidLeft;
+	public Transform spawnerMidRight;
 	
 
 	// Use this for initialization
 	void Start () {
 		
-		onLast = 3;
+		onLast = 5;
 		SpawnerPatterns getNumPatterns = gameObject.GetComponent("SpawnerPatterns") as SpawnerPatterns;
 		numPatterns = getNumPatterns.GetNumPatterns();
 		getSpeedScript = refCamera.GetComponent("ObjectManagerScript") as ObjectManagerScript;
 		gameSpeed = getSpeedScript.GetGameSpeed();
 		spawners[0] = spawnerLeft.GetComponent("SpawnScript") as SpawnScript;
-		spawners[1] = spawnerMid.GetComponent("SpawnScript") as SpawnScript;
-		spawners[2] = spawnerRight.GetComponent("SpawnScript") as SpawnScript;
+		spawners[1] = spawnerMidLeft.GetComponent("SpawnScript") as SpawnScript;
+		spawners[2] = spawnerMid.GetComponent("SpawnScript") as SpawnScript;
+		spawners[3] = spawnerMidRight.GetComponent("SpawnScript") as SpawnScript;
+		spawners[4] = spawnerRight.GetComponent("SpawnScript") as SpawnScript;
 	
 	}
 	
@@ -36,60 +43,29 @@ public class ManagingScript : MonoBehaviour {
 	{
 		++onLast;
 	}
+
 	
 	// Update is called once per frame
 	void Update () {
 		gameSpeed = getSpeedScript.GetGameSpeed();
 		
 		// If a new pattern is needed
-		if(onLast >= 3)
+		if(onLast >= 5)
 		{
-			curPattern = Random.Range(0, numPatterns);
-			currWaitTime[0] = Random.Range(0.0f, 1.0f);
-			if(currWaitTime[0] < 0.5f)
-			{
-				currWaitTime[1] = Random.Range(0.3f, 1.0f);
-				currWaitTime[2] = Random.Range(0.5f, 1.0f);
-			}
-			else
-			{
-				currWaitTime[1] = Random.Range(0.0f, 0.8f);
-				currWaitTime[2] = Random.Range(0.0f, 0.5f);
-			}
+			curPattern = Random.Range(0, numPatterns-1);
+			numCycles = Random.Range(1, 9);
+			
 			onLast = 0;
-			cuePattern[0] = true;
-			cuePattern[1] = true;
-			cuePattern[2] = true;
+			cuePatterns = true;
 		}
 	
 		// If cueing the new pattern for the spawners
-		if(cuePattern[0] == true)
+		if(cuePatterns)
 		{
-			currWaitTime[0] -= (gameSpeed * Time.deltaTime);
-			if(currWaitTime[0] <= 0.0f)
+			for(int i = 0; i < 5; ++i)
 			{
-				spawners[0].Cue(curPattern);
-				cuePattern[0] = false;
+				spawners[i].Cue (curPattern, numCycles);
 			}
 		}
-		if(cuePattern[1] == true)
-		{
-			currWaitTime[1] -= (gameSpeed * Time.deltaTime);
-			if(currWaitTime[1] <= 0.0f)
-			{
-				spawners[1].Cue(curPattern);
-				cuePattern[1] = false;
-			}
-		}
-		if(cuePattern[2] == true)
-		{
-			currWaitTime[2] -= (gameSpeed * Time.deltaTime);
-			if(currWaitTime[2] <= 0.0f)
-			{
-				spawners[2].Cue(curPattern);
-				cuePattern[2] = false;
-			}
-		}
-			
 	}
 }
