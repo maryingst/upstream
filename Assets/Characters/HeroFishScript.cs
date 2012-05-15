@@ -93,13 +93,5 @@ public class HeroFishScript : AnimatedScript {
 	public int GetHealth(){
 		return health;
 	}
-	
-	void OnTriggerEnter(Collider collObj)
-	{
-		if(collObj.gameObject.CompareTag("Obstacle"))
-		{
-			ApplyDamage(5);
-			renderer.material.color = Color.blue;
-		}
-	}
+
 }
