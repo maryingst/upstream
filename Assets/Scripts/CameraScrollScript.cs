@@ -17,15 +17,21 @@ protected float scrollSpeed;
 	void Start () {
 		
 	
-		getSpeedScript = refCamera.GetComponent("ObjectManagerScript") as ObjectManagerScript;	
-		scrollSpeed = getSpeedScript.GetGameSpeed() * 0.1f;
+		getSpeedScript = refCamera.GetComponent("ObjectManagerScript") as ObjectManagerScript;
+		if(getSpeedScript)
+			scrollSpeed = getSpeedScript.GetGameSpeed() * 0.1f;
+		else
+			scrollSpeed =0.1f;
 		
 			}
 
 	
 	// Update is called once per frame
 	void Update () {
-		scrollSpeed = getSpeedScript.GetGameSpeed() * 0.1f;
+		if(getSpeedScript)
+			scrollSpeed = getSpeedScript.GetGameSpeed() * 0.1f;
+		else
+			scrollSpeed =0.1f;
 		
 		Vector2 newOffset;
 		newOffset = gameObject.renderer.material.GetTextureOffset("_MainTex");

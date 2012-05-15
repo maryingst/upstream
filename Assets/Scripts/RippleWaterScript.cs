@@ -28,7 +28,10 @@ public class RippleWaterScript : MonoBehaviour {
     void Start() {
 		
 		getSpeedScript = Camera.mainCamera.GetComponent("ObjectManagerScript") as ObjectManagerScript;	
-		scrollSpeed = getSpeedScript.GetGameSpeed()*0.3f;
+		if(getSpeedScript)
+			scrollSpeed = getSpeedScript.GetGameSpeed()*0.3f;
+		else
+			scrollSpeed = 0.3f;
 
 		
 		RippleBirth = new List<DateTime>();
@@ -109,7 +112,10 @@ public class RippleWaterScript : MonoBehaviour {
 		LoadMesh();
 		CullRipple();
 		
-		scrollSpeed = getSpeedScript.GetGameSpeed() * 0.3f;
+		if(getSpeedScript)
+			scrollSpeed = getSpeedScript.GetGameSpeed()*0.3f;
+		else
+			scrollSpeed = 0.3f;
 		
 		Vector2 newOffset;
 		newOffset = gameObject.renderer.material.GetTextureOffset("_BumpMap");

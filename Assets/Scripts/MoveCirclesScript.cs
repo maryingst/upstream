@@ -19,7 +19,7 @@ protected LineRenderer Circle;
 		growspeed=1.04f;
 		radius = 1.0f;
 		Circle = gameObject.GetComponent<LineRenderer>();
-		Circle.SetVertexCount(50);
+		Circle.SetVertexCount((int)radius*6);
 		Circle.SetColors(Color.green,Color.green);
 		Circle.SetWidth(5f,5f);
 	}
@@ -27,9 +27,10 @@ protected LineRenderer Circle;
 	void ConstructCircle(){
 		float y;
 		float x;
-		for(int i=0;i<50;i++){
-			y=Mathf.Cos ((i-25)*(Mathf.PI/(24.5f)))*radius + transform.position.y;
-			x=Mathf.Sin ((i-25)*(Mathf.PI/(24.5f)))*radius + transform.position.x;
+		Circle.SetVertexCount((int)radius*6);
+		for(int i=0;i<(int)radius*6;i++){
+			y=Mathf.Cos ((i-((int)radius*3))*(Mathf.PI/(float)(((int)(radius*6) - 1)/2.0f)))*radius + transform.position.y;
+			x=Mathf.Sin ((i-((int)radius*3))*(Mathf.PI/(float)(((int)(radius*6) - 1)/2.0f)))*radius + transform.position.x;
 			Circle.SetPosition(i,new Vector3(x,y,transform.position.z));
 		}
 	}
