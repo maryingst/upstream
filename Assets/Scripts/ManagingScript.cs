@@ -53,7 +53,7 @@ public class ManagingScript : MonoBehaviour {
 		if(onLast >= 5)
 		{
 			curPattern = Random.Range(0, numPatterns-1);
-			numCycles = Random.Range(1, 9);
+			numCycles = Random.Range(1, 5);
 			
 			onLast = 0;
 			cuePatterns = true;
@@ -66,6 +66,7 @@ public class ManagingScript : MonoBehaviour {
 			{
 				spawners[i].Cue (curPattern, numCycles);
 			}
+			cuePatterns = false;
 		}
 	}
 }

@@ -28,20 +28,20 @@ public class SpawnerPatterns : MonoBehaviour {
 	
 		
 		// new kinds of patterns
-		float [] Pattern4 = new float[] { 0.0f, 0.3f, 0.6f, 0.9f, 1.2f };
-		float [] Pattern5 = new float[] { 1.2f, 0.9f, 0.6f, 0.3f, 0.0f };
-		float [] Pattern6 = new float[] { 0.0f, 0.5f, 1.0f, 0.5f, 1.0f };
-		float [] Pattern7 = new float[] { 1.0f, 0.5f, 0.0f, 0.5f, 1.0f };
-		float [] Pattern8 = new float[] { 0.8f, 0.2f, 1.0f, 0.4f, 0.0f };
+		float [] Pattern1 = new float[] { 0.0f, 0.3f, 0.6f, 0.9f, 1.2f };
+		float [] Pattern2 = new float[] { 1.2f, 0.9f, 0.6f, 0.3f, 0.0f };
+		float [] Pattern3 = new float[] { 0.0f, 0.5f, 1.0f, 0.5f, 1.0f };
+		float [] Pattern4 = new float[] { 1.0f, 0.5f, 0.0f, 0.5f, 1.0f };
+		float [] Pattern5 = new float[] { 0.8f, 0.2f, 1.0f, 0.4f, 0.0f };
 		
 	
 		for(int i = 0; i < 5; ++i)
 		{
-			NewPatterns[0,i] = Pattern4[i];
-			NewPatterns[1,i] = Pattern5[i];
-			NewPatterns[2,i] = Pattern6[i];
-			NewPatterns[3,i] = Pattern7[i];
-			NewPatterns[4,i] = Pattern8[i];
+			NewPatterns[0,i] = Pattern1[i];
+			NewPatterns[1,i] = Pattern2[i];
+			NewPatterns[2,i] = Pattern3[i];
+			NewPatterns[3,i] = Pattern4[i];
+			NewPatterns[4,i] = Pattern5[i];
 		}
 		
 	}

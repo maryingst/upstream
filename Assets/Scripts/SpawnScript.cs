@@ -74,7 +74,7 @@ public class SpawnScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		gameSpeed = getSpeedScript.GetGameSpeed()/2f;
+		gameSpeed = getSpeedScript.GetGameSpeed();
 		
 		// countdown to next obstacle
 		waitTime -= Time.deltaTime;
@@ -84,7 +84,7 @@ public class SpawnScript : MonoBehaviour {
 		if(waitTime <= 0.0f && numCycles < 10)
 		{
 			Instantiate (prefabObstacle, transform.position, Quaternion.identity);
-			waitTime = gameSpeed * 30.0f;
+			waitTime = gameSpeed * 4.0f;
 			--numCycles;
 			if(numCycles <= 0)
 			{
@@ -101,6 +101,6 @@ public class SpawnScript : MonoBehaviour {
 	{
 		//curPattern = newPattern;
 		numCycles = newCycles; //manager.GetCycles();
-		waitTime = patterns.GetTime(newPattern, numSpawner);				
+		waitTime = 2.0f * patterns.GetTime(newPattern, numSpawner);				
 	}
 }
