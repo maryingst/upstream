@@ -29,8 +29,8 @@ protected LineRenderer Circle;
 		float x;
 		Circle.SetVertexCount((int)radius*6);
 		for(int i=0;i<(int)radius*6;i++){
-			y=Mathf.Cos ((i-((int)radius*3))*(Mathf.PI/(float)(((int)(radius*6) - 1)/2.0f)))*radius + transform.position.y;
-			x=Mathf.Sin ((i-((int)radius*3))*(Mathf.PI/(float)(((int)(radius*6) - 1)/2.0f)))*radius + transform.position.x;
+			y=Mathf.Cos ((i)*(Mathf.PI/(float)(((int)(radius*6) - 1)/2.0f)))*radius + transform.position.y;
+			x=Mathf.Sin ((i)*(Mathf.PI/(float)(((int)(radius*6) - 1)/2.0f)))*radius + transform.position.x;
 			Circle.SetPosition(i,new Vector3(x,y,transform.position.z));
 		}
 	}
@@ -48,7 +48,7 @@ protected LineRenderer Circle;
 		transform.position = newPosition; 
 		if(!stopped)
 		{
-			radius += scrollSpeed * Time.deltaTime;
+			radius += scrollSpeed*1.5f * Time.deltaTime;
 		}
 	}
 	

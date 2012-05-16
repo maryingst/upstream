@@ -28,10 +28,10 @@ public class MenuManagerScript : MonoBehaviour {
 	
 	void OnGUI () {
 		
-		if(GUI.Button(new Rect (Screen.width/2-30,Screen.height/2-10,60,20),new GUIContent ("Play"))){
+		if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/2-40,120,40),new GUIContent ("Play"))){
 			 Application.LoadLevel("Upstream");
 		}
-		if(GUI.Button(new Rect (Screen.width/2-30,Screen.height/2+10,60,20),new GUIContent ("Credits"))){
+		if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/2+10,120,40),new GUIContent ("Credits"))){
 			 Application.LoadLevel("Credits");
 		}			
 			

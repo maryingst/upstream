@@ -19,7 +19,6 @@ public class AnimatedScript : MonoBehaviour {
 	protected int[]	TotalFrames;
 	protected float[] BaseSpeed;
 	public float[] Velocity = new float[2] {0,0};		
-	public Vector3 Rotation;
 
 	
 	// Use this for initialization
@@ -33,9 +32,6 @@ public class AnimatedScript : MonoBehaviour {
 	public void UpdateVelocity(float x,float z){
 		Velocity[0] = x;
 		Velocity[1] = z;
-	}
-	public void UpdateRotationPoint(Vector3 Point){
-		Rotation = Point;
 	}
 
 	public virtual void Move(){

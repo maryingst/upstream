@@ -8,7 +8,9 @@ public class HeroFishScript : AnimatedScript {
 	private int health;
 	private bool ishurt;
 	private DateTime hurttime;
-	
+
+	private Vector3 Rotation;
+	private float Radius;
 	
 	// Use this for initialization
 	override protected void Init () {
@@ -19,9 +21,10 @@ public class HeroFishScript : AnimatedScript {
 		CurrentFrame = 0;
 		TotalTime = 0;
 		Rotation = new Vector3(0,0,0);
+		Radius = 0;
 		health = 100;
 		ishurt = false;
-		base.UpdateVelocity(0,5);
+		base.UpdateVelocity(0,-10);
 	}
 		
 	//Use this to Move Shabba within bounds
@@ -30,19 +33,30 @@ public class HeroFishScript : AnimatedScript {
 			base.Move();						
 	}
 	
+	public void UpdateRotationPoint(Vector3 Point,float rad){
+		Rotation = Point;
+		Radius = rad;
+	}
+
+	
 	public void Rotate(){
 		if(Rotation.z!=0){
 			float radius = Vector3.Distance(transform.position,Rotation);
 			
 			Vector3 direction = Vector3.right;
-			if(Rotation.y-transform.position.y > 0){
+			if(Rotation.y-transform.position.y >= 0){
 				if(Rotation.x-transform.position.x<0)
 					direction = Vector3.forward;
 				else if(Rotation.x-transform.position.x>=0)
 					direction = Vector3.back;
 		    }
+			else if(Mathf.Abs(Rotation.x-transform.position.x)<Radius-10 && Rotation.y-transform.position.y<=-5 && !ishurt){
+				base.UpdateVelocity(0,20);
+				direction = Vector3.left;
+			}
 						
-			if(direction!=Vector3.right){
+			if(direction!=Vector3.right && direction!=Vector3.left){
+				base.UpdateVelocity(0,-60);
 				transform.RotateAround(Rotation, direction, (5000.0f/(radius)) * Time.deltaTime);
 				transform.eulerAngles= new Vector3(90,180,0);
 				Vector3 temp = (transform.position-Rotation);
@@ -51,9 +65,15 @@ public class HeroFishScript : AnimatedScript {
 				else
 					transform.Rotate(direction,(Mathf.Atan2(temp.y,temp.x)*180/Mathf.PI),Space.World);
 			}
-			else
+			else if(direction==Vector3.right){
 				transform.eulerAngles= new Vector3(90,180,0);
+				base.UpdateVelocity(0,-10);
+			}
 		}
+		else{
+				transform.eulerAngles= new Vector3(90,180,0);
+				base.UpdateVelocity(0,-10);
+			}
 	}
 	
 	// Update is called once per frame

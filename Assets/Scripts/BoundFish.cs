@@ -47,19 +47,19 @@ public class BoundFish : MonoBehaviour {
 				// TO-DO: CODE FOR BOUNCE-BACK
 		}
 		
-		if (transform.position.y < wallHeight.x+transform.localScale.y*15)
+		if (transform.position.y < wallHeight.x/2)
 		{
 			Vector3 newPos;
 			newPos = transform.position;
-			newPos.y = wallHeight.x+transform.localScale.y*15;
+			newPos.y = wallHeight.x/2;
 			transform.position = newPos;
 		
 		}
-		else if (transform.position.y > -wallHeight.y/2)
+		else if (transform.position.y > wallHeight.y/2)
 		{
 			Vector3 newPos;
 			newPos = transform.position;
-			newPos.y = -wallHeight.y/2;
+			newPos.y = wallHeight.y/2;
 			transform.position = newPos;
 			
 		}

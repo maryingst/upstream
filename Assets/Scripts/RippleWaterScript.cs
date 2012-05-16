@@ -107,9 +107,8 @@ public class RippleWaterScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		ResetWater();
 		LoadRipples();
-		LoadMesh();
+		LoadMesh ();
 		CullRipple();
 		
 		if(getSpeedScript)
@@ -122,24 +121,27 @@ public class RippleWaterScript : MonoBehaviour {
 		newOffset.y -= scrollSpeed * Time.deltaTime;
 		
 		gameObject.renderer.material.SetTextureOffset("_BumpMap", newOffset);
+		gameObject.renderer.material.SetTextureOffset("_MainTex",newOffset);
 
 	}
 	
 	void LoadRipples(){
-
+		
 		for (int k=0;k<height*width;k++)
 		{
 		List<Vector3>.Enumerator rippleEnum = RippleOrigins.GetEnumerator();
 		List<DateTime>.Enumerator birthEnum = RippleBirth.GetEnumerator();
 
+		vertices[k].y=0;
+
 			while(rippleEnum.MoveNext()){
 				birthEnum.MoveNext();
-				Vector4 vertex = transform.localToWorldMatrix*new Vector4(vertices[k].x,vertices[k].y,vertices[k].z,1);
+				Vector4 vertex = transform.localToWorldMatrix*new Vector4(vertices[k].x,0,vertices[k].z,1);
 				TimeSpan dif = DateTime.Now-birthEnum.Current;
 				float dist = Vector2.Distance(new Vector2(rippleEnum.Current.x,rippleEnum.Current.y-(scrollSpeed/7f)*(dif.Milliseconds+dif.Seconds*1000)) , new Vector2(vertex.x,vertex.y));
 				//if(dist<=(DateTime.Now-birthEnum.Current).Milliseconds/20 && dist>=(DateTime.Now-birthEnum.Current).Milliseconds/100)
-				if(dist < ((dif.Milliseconds+dif.Seconds*1000)/25))
-				vertices[k].y+=(int)((100/Mathf.Sqrt(dist))*Mathf.Cos(dist/7-(dif.Milliseconds+dif.Seconds*1000)/(200)));
+				if(dist < ((dif.Milliseconds+dif.Seconds*1000.0f)/15.0f) && dist > ((dif.Milliseconds+dif.Seconds*1000.0f)/15.0f)-2*dist/7)
+				vertices[k].y+=(int)((50.0f/Mathf.Sqrt(dist))*Mathf.Sin(dist/7.0f-(dif.Milliseconds+dif.Seconds*1000.0f)/(140.0f)));
 			}	
 		
 			//vertices[k].y/=(RippleBirth.Count+1);

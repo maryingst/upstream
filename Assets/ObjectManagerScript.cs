@@ -40,7 +40,7 @@ public class ObjectManagerScript : MonoBehaviour {
 		GUI.TextArea (new Rect (10,10,75,20), "Health: " + (script.GetHealth()).ToString());
 		
 		if(script.GetHealth()==0){
-			if(GUI.Button(new Rect (Screen.width/2-30,Screen.height/2-10,60,20),new GUIContent ("Restart"))){
+			if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/2-20,120,40),new GUIContent ("Restart"))){
 				 Application.LoadLevel("Upstream");
 			}
 		}
@@ -140,10 +140,15 @@ public class ObjectManagerScript : MonoBehaviour {
 						
 			count++;
 		}
-		if(CurrentCircle)
-			script.UpdateRotationPoint(new Vector3(CurrentCircle.transform.position.x,CurrentCircle.transform.position.y,50));
+		
+		if(script.checkishurt())
+			CurrentCircle=null;
+		if(CurrentCircle){
+			MoveCirclesScript circlescript = CurrentCircle.GetComponent("MoveCirclesScript") as MoveCirclesScript;
+			script.UpdateRotationPoint(new Vector3(CurrentCircle.transform.position.x,CurrentCircle.transform.position.y,50),circlescript.GetRadius());
+		}
 		else
-			script.UpdateRotationPoint(new Vector3(0,0,0));
+			script.UpdateRotationPoint(new Vector3(0,0,0),0);
 	}				
 
 }
