@@ -47,6 +47,12 @@ public class ObjectManagerScript : MonoBehaviour {
 			if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/2-20,120,40),new GUIContent ("Restart"))){
 				 Application.LoadLevel("Upstream");
 			}
+			if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/2+30,120,40),new GUIContent ("Menu"))){
+				 Application.LoadLevel("Menu");
+			}
+			if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/2+80,120,40),new GUIContent ("Exit"))){
+				 Application.Quit();
+			}
 		}
 	}
 	

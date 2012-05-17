@@ -34,6 +34,9 @@ public class MenuManagerScript : MonoBehaviour {
 			if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/2+10,120,40),new GUIContent ("Credits"))){
 			 	Application.LoadLevel("Credits");
 			}
+			if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/2+60,120,40),new GUIContent ("Exit"))){
+				 Application.Quit();
+			}
 		}
 		else if(Application.loadedLevel == 2){
 			if(GUI.Button(new Rect (Screen.width/2-60,7*Screen.height/8,120,40),new GUIContent ("Back"))){
