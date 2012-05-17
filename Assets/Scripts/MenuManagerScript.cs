@@ -27,13 +27,19 @@ public class MenuManagerScript : MonoBehaviour {
 	}
 	
 	void OnGUI () {
-		
-		if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/2-40,120,40),new GUIContent ("Play"))){
-			 Application.LoadLevel("Upstream");
+		if(Application.loadedLevel == 0){
+			if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/2-40,120,40),new GUIContent ("Play"))){
+			 	Application.LoadLevel("Upstream");
+			}
+			if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/2+10,120,40),new GUIContent ("Credits"))){
+			 	Application.LoadLevel("Credits");
+			}
 		}
-		if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/2+10,120,40),new GUIContent ("Credits"))){
-			 Application.LoadLevel("Credits");
-		}			
+		else if(Application.loadedLevel == 2){
+			if(GUI.Button(new Rect (Screen.width/2-60,7*Screen.height/8,120,40),new GUIContent ("Back"))){
+			 	Application.LoadLevel("Menu");
+			}
+		}
 			
 	}
 	

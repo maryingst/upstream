@@ -25,6 +25,9 @@ public class ObjectManagerScript : MonoBehaviour {
 	public GameObject Circlometer;
 	//Healthmeter
 	public GameObject Healthmeter;
+	//Hurt Music
+	public AudioSource Hurt;
+
 	
 	// Use this for initialization
 	void Start () {
@@ -65,6 +68,12 @@ public class ObjectManagerScript : MonoBehaviour {
 		Healthmeter.renderer.material.mainTextureScale = new Vector2(script.GetHealth()/10.0f,1);
 		Healthmeter.transform.localScale = new Vector3(2.5f-((100.0f-script.GetHealth())/40.0f),1,0.5f);
 		Healthmeter.transform.position = new Vector3(-85-1.3f*(100.0f-script.GetHealth())/10.0f,68,25);
+		
+		if(script.GetHealth()==0 && !Hurt.isPlaying)
+			Hurt.Play();
+		else if(Hurt.isPlaying && script.GetHealth()!=0)
+			Hurt.Stop();
+			
 		
 	}
 	

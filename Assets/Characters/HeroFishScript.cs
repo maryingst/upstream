@@ -11,6 +11,9 @@ public class HeroFishScript : AnimatedScript {
 
 	private Vector3 Rotation;
 	private float Radius;
+
+	//Collision Sound
+	public AudioSource Thud;
 	
 	// Use this for initialization
 	override protected void Init () {
@@ -89,8 +92,9 @@ public class HeroFishScript : AnimatedScript {
 	}
 	
 	void OnTriggerEnter(Collider other) {
-        if(other.gameObject.name.Contains("Obstacle"))
+        if(other.gameObject.name.Contains("Obstacle")){
 			ApplyDamage (10);
+		}
     }
 	
 	private void ApplyDamage(int damage){
@@ -101,9 +105,12 @@ public class HeroFishScript : AnimatedScript {
 				hurttime = DateTime.Now;
 				gameObject.renderer.material.color = Color.red;
 			}
-			else
+			else{
+				gameObject.renderer.material.color = Color.red;
 				health=0;
+			}
 		}
+		Thud.Play();
 	}
 	
 	public bool checkishurt(){
