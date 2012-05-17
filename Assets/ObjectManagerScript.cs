@@ -21,6 +21,10 @@ public class ObjectManagerScript : MonoBehaviour {
 	public GameObject Fish;
 	//Water Object
 	public GameObject Water;
+	//Circlometer
+	public GameObject Circlometer;
+	//Healthmeter
+	public GameObject Healthmeter;
 	
 	// Use this for initialization
 	void Start () {
@@ -36,15 +40,11 @@ public class ObjectManagerScript : MonoBehaviour {
 	}
 	
 	void OnGUI () {
-		
-		GUI.TextArea (new Rect (10,10,75,20), "Health: " + (script.GetHealth()).ToString());
-		
 		if(script.GetHealth()==0){
 			if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/2-20,120,40),new GUIContent ("Restart"))){
 				 Application.LoadLevel("Upstream");
 			}
 		}
-			
 	}
 	
 	public void SetGameSpeed(float newSpeed)
@@ -60,6 +60,12 @@ public class ObjectManagerScript : MonoBehaviour {
 	void Update () {
 		HandleInput();
 		UpdateCircles(1.03f);
+		
+		
+		Healthmeter.renderer.material.mainTextureScale = new Vector2(script.GetHealth()/10.0f,1);
+		Healthmeter.transform.localScale = new Vector3(2.5f-((100.0f-script.GetHealth())/40.0f),1,0.5f);
+		Healthmeter.transform.position = new Vector3(-85-1.3f*(100.0f-script.GetHealth())/10.0f,68,25);
+		
 	}
 	
 	void HandleInput(){
@@ -68,7 +74,7 @@ public class ObjectManagerScript : MonoBehaviour {
 		//if left click
 		if(Input.GetMouseButtonDown(0) && Circles.Count < 5){
 			//find the location of click and create a circle
-			Vector3 Circlepoint = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x,Input.mousePosition.y,50));
+			Vector3 Circlepoint = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x,Input.mousePosition.y,51));
 			Instantiate(Circle,	Circlepoint,PointToCamera);
 			
 			//find the new circle and name it
@@ -82,6 +88,9 @@ public class ObjectManagerScript : MonoBehaviour {
 			StaticCircleBirth.Add(new DateTime());
 			waterscript.AddRipple(NewCircle.transform.position,DateTime.Now);
 			
+			Circlometer.renderer.material.mainTextureScale = new Vector2(5-Circles.Count,1);
+			Circlometer.transform.localScale = new Vector3(5-Circles.Count,1,1);
+			Circlometer.transform.position = new Vector3(-74-5.0f*(Circles.Count),-68,25);
 		}
 	}
 	
@@ -109,6 +118,9 @@ public class ObjectManagerScript : MonoBehaviour {
 					CircleBirth.RemoveAt(count);
 					StaticCircleBirth.RemoveAt(count);
 					Circles.RemoveAt(count);
+					Circlometer.renderer.material.mainTextureScale = new Vector2(5-Circles.Count,1);
+					Circlometer.transform.localScale = new Vector3(5-Circles.Count,1,1);
+					Circlometer.transform.position = new Vector3(-74-5.0f*(Circles.Count),-68,25);
 					break;
 				}
 				
@@ -130,6 +142,9 @@ public class ObjectManagerScript : MonoBehaviour {
 				StaticCircleBirth.RemoveAt(count);
 				CircleBirth.RemoveAt(count);
 				Circles.RemoveAt(count);
+				Circlometer.renderer.material.mainTextureScale = new Vector2(5-Circles.Count,1);
+				Circlometer.transform.localScale = new Vector3(5-Circles.Count,1,1);
+				Circlometer.transform.position = new Vector3(-74-5.0f*(Circles.Count),-68,25);
 				break;
 			}
 			
