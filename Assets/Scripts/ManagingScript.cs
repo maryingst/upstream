@@ -50,7 +50,7 @@ public class ManagingScript : MonoBehaviour {
 		gameSpeed = getSpeedScript.GetGameSpeed();
 		
 		// If a new pattern is needed
-		if(onLast >= 5)
+		if(onLast >= 4)
 		{
 			curPattern = Random.Range(0, numPatterns-1);
 			numCycles = Random.Range(1, 5);

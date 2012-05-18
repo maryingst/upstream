@@ -8,6 +8,7 @@ public class HeroFishScript : AnimatedScript {
 	private int health;
 	private bool ishurt;
 	private DateTime hurttime;
+	private int totalScore;
 
 	private Vector3 Rotation;
 	private float Radius;
@@ -29,6 +30,7 @@ public class HeroFishScript : AnimatedScript {
 		Rotation = new Vector3(0,0,0);
 		Radius = 0;
 		health = 100;
+		totalScore = 0;
 		ishurt = false;
 		base.UpdateVelocity(0,-10);
 	}
@@ -98,7 +100,19 @@ public class HeroFishScript : AnimatedScript {
         if(other.gameObject.name.Contains("Obstacle")){
 			ApplyDamage (10);
 		}
+		if(other.gameObject.name.Contains("Glow")){
+			AddScore(10);
+			DestroyObject (other.gameObject);
+			
+			
+			// TO-DO: ADD CHIME FOR PICK-UP
+		}
     }
+	
+	private void AddScore(int score)
+	{
+		totalScore += score;	
+	}
 	
 	private void ApplyDamage(int damage){
 		if(!ishurt){
