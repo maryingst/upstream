@@ -23,28 +23,40 @@ public class SpawnScript : MonoBehaviour {
 	void Start () {
 		
 		getSpeedScript = refCamera.GetComponent("ObjectManagerScript") as ObjectManagerScript;
-		gameSpeed = getSpeedScript.GetGameSpeed()/2f;
+		gameSpeed = getSpeedScript.GetGameSpeed()/5f;
 		
-		waitTime = 100.0f;
+		waitTime = 1.0f;
 		numCycles = 0;
-
+		
+		int isobstacle = Random.Range(1,100);
+		
 		     if (gameObject.CompareTag("Left"))
-		{	numSpawner = 0; }
+		{	numSpawner = 0; 
+			
+			}
 		
 		else if (gameObject.CompareTag("MidLeft"))
-		{	numSpawner = 1; }
+		{	numSpawner = 1; 
+			
+			}
 		
 		
 		else if (gameObject.CompareTag("Mid"))
-		{	numSpawner = 2; }
+		{	numSpawner = 2; 
+			
+			}
 		
 		
 		else if (gameObject.CompareTag("MidRight"))
-		{	numSpawner = 3; }
+		{	numSpawner = 3; 
+			
+			}
 		
 		
 		else if (gameObject.CompareTag("Right"))
-		{	numSpawner = 4; }
+		{	numSpawner = 4; 
+			
+			}
 		
 		patterns = parentSpawner.GetComponent("SpawnerPatterns") as SpawnerPatterns;
 		manager = parentSpawner.GetComponent("ManagingScript") as ManagingScript;
@@ -60,25 +72,20 @@ public class SpawnScript : MonoBehaviour {
 		// countdown to next obstacle
 		waitTime -= Time.deltaTime;
 		
-		
+		int isobstacle = Random.Range(1,100);
 		// obstacle created, new countdown starts
 		if(waitTime <= 0.0f && numCycles < 10)
 		{
-			
-			if(Random.Range(0,3) > 0)
-			{
+			if(isobstacle<75)
 				Instantiate (prefabObstacle, transform.position, Quaternion.identity);
-			}
 			else
-			{
 				Instantiate (prefabGlow, transform.position, Quaternion.identity);
-			}
 			waitTime = gameSpeed * 4.0f;
 			--numCycles;
 			if(numCycles <= 0)
 			{
 				manager.addLast();
-				numCycles = 10;
+				numCycles = 1;
 			}
 		}
 	
