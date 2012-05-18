@@ -6,7 +6,6 @@ using System.Collections;
 public class CameraScrollScript : MonoBehaviour {
 	
 
-	public GameObject refCamera;
 	ObjectManagerScript getSpeedScript;
 	
 
@@ -17,7 +16,7 @@ protected float scrollSpeed;
 	void Start () {
 		
 	
-		getSpeedScript = refCamera.GetComponent("ObjectManagerScript") as ObjectManagerScript;
+		getSpeedScript = Camera.mainCamera.GetComponent("ObjectManagerScript") as ObjectManagerScript;
 		if(getSpeedScript)
 			scrollSpeed = getSpeedScript.GetGameSpeed() * 0.1f;
 		else
