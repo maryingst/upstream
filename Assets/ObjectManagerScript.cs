@@ -54,6 +54,9 @@ public class ObjectManagerScript : MonoBehaviour {
 				 Application.Quit();
 			}
 		}
+		GUIStyle mystyle = new GUIStyle();
+		mystyle.fontSize = 20;
+		GUI.Box (new Rect (3*Screen.width/4, 5, 100, 40), script.GetScore ().ToString(),mystyle);
 	}
 	
 	public void SetGameSpeed(float newSpeed)

@@ -141,5 +141,8 @@ public class HeroFishScript : AnimatedScript {
 	public int GetHealth(){
 		return health;
 	}
-
+	
+	public int GetScore(){
+		return totalScore;
+	}
 }
