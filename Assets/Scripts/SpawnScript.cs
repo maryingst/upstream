@@ -28,42 +28,22 @@ public class SpawnScript : MonoBehaviour {
 		numCycles = 0;
 
 		     if (gameObject.CompareTag("Left"))
-		{	numSpawner = 0; 
-			
-			Vector3 newPos = transform.position;
-			newPos.y = 50;
-		Instantiate (prefabObstacle, newPos, Quaternion.identity);}
+		{	numSpawner = 0; }
 		
 		else if (gameObject.CompareTag("MidLeft"))
-		{	numSpawner = 1; 
-			
-			Vector3 newPos = transform.position;
-			newPos.y = 50;
-		Instantiate (prefabObstacle, newPos, Quaternion.identity);}
+		{	numSpawner = 1; }
 		
 		
 		else if (gameObject.CompareTag("Mid"))
-		{	numSpawner = 2; 
-			
-			Vector3 newPos = transform.position;
-			newPos.y = 50;
-		Instantiate (prefabObstacle, newPos, Quaternion.identity);}
+		{	numSpawner = 2; }
 		
 		
 		else if (gameObject.CompareTag("MidRight"))
-		{	numSpawner = 3; 
-			
-			Vector3 newPos = transform.position;
-			newPos.y = 50;
-		Instantiate (prefabObstacle, newPos, Quaternion.identity);}
+		{	numSpawner = 3; }
 		
 		
 		else if (gameObject.CompareTag("Right"))
-		{	numSpawner = 4; 
-			
-			Vector3 newPos = transform.position;
-			newPos.y = 50;
-		Instantiate (prefabObstacle, newPos, Quaternion.identity);}
+		{	numSpawner = 4; }
 		
 		patterns = parentSpawner.GetComponent("SpawnerPatterns") as SpawnerPatterns;
 		manager = parentSpawner.GetComponent("ManagingScript") as ManagingScript;
