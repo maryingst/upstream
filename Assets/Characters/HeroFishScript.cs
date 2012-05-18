@@ -15,6 +15,9 @@ public class HeroFishScript : AnimatedScript {
 	//Collision Sound
 	public AudioSource Thud;
 	
+	//hurt sound
+	public AudioSource hurt;
+	
 	// Use this for initialization
 	override protected void Init () {
 		CurrentAnimation = AnimationType.GoUp;
@@ -104,13 +107,17 @@ public class HeroFishScript : AnimatedScript {
 				ishurt=true;
 				hurttime = DateTime.Now;
 				gameObject.renderer.material.color = Color.red;
+				if(!Thud.isPlaying)
+					Thud.Play();
+				if(health<30 && !hurt.isPlaying)
+					hurt.Play();
 			}
 			else{
 				gameObject.renderer.material.color = Color.red;
 				health=0;
 			}
 		}
-		Thud.Play();
+		
 	}
 	
 	public bool checkishurt(){

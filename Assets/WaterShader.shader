@@ -1,5 +1,5 @@
   Shader "Example/WaterShader" {
-    Properties {
+  Properties {
       _MainTex ("Texture", 2D) = "white" {}
       _BumpMap ("Texture", 2D) = "" {}
       _Point1 ("Point1", Vector) = (1,1,1,0)
@@ -14,89 +14,96 @@
       _Time5 ("Time5",float) = 0
       
     }
-    SubShader {
-     
-      CGPROGRAM
-// Upgrade NOTE: excluded shader from OpenGL ES 2.0 because it does not contain a surface program or both vertex and fragment programs.
-#pragma exclude_renderers gles
-      
-      #pragma surface surf SimpleSpecular vertex:vert alpha
+SubShader {
+    Pass {
 
-      	
-      float4 _Point1;
-      float _Time1;
-      float3 normal;
+CGPROGRAM
+// Upgrade NOTE: excluded shader from Xbox360; has structs without semantics (struct v2f members norm)
+#pragma exclude_renderers xbox360
+#pragma vertex vert
+#pragma fragment frag
+#include "UnityCG.cginc"
 
-      struct v2f {
-      	float4 pos : SV_POSITION;
-      	float3 color : COLOR0;
-      };
-      struct Input {
-          float2 uv_MainTex;
-          float2 uv_BumpMap;
-          float3 worldPos;
-          float3 worldNormal;INTERNAL_DATA
-      };
-      sampler2D _BumpMap;
-      sampler2D _MainTex;      
+struct v2f {
+    float4 pos : SV_POSITION;
+    float2  uv : TEXCOORD0;
+    float3 varyingNormalDirection;
+    float4 eyedir;
+};
 
+float4 _Point1;
+float4 _Point2;
+float4 _Point3;
+float4 _Point4;
+float4 _Point5;
+float _Time1;
+float _Time2;
+float _Time3;
+float _Time4;
+float _Time5;
+float4 _MainTex_ST;
+float4 _BumpMap_ST;
 
-		float gety(float2 xz, float3 p){
+uniform sampler2D _BumpMap;
+uniform sampler2D _MainTex;
+
+		float gety(float2 xz, float3 p,float time){
 			float2 dif;
-			dif.xy = xz - p.xy;
+			dif.xy = xz - p.xz;
       		float dist = sqrt(pow(dif.x,2)+pow(dif.y,2)); 
-      		return (p.z + 20*cos(dist/7-(_Time1/500)));
+      		return (p.y - 20*cos(dist/7-(time/500))-20);
 		}
 		
-		float3 getnorm(float3 loc,float3 p){
+		float3 getnorm(float3 loc){
 				float3 temp1;
       			float3 temp2;
-      			temp1 =loc + (1,0,0);
-      			temp1.y=gety(temp1.xy,p);
-      			temp2 =loc + (0,0,1);
-      			temp2.y=gety(temp2.xz,p);
-				return cross(temp1-loc, temp2-loc);
+      			float3 temploc = loc;
+      			temp1 =loc + float3(0.01,0,0);
+      			temp2 =loc + float3(0,0,0.01);
+      			if(_Point1.w==1){
+    				temp1.y= gety(temp1.xz,_Point1.xyz,_Time1);
+    				temp2.y= gety(temp2.xz,_Point1.xyz,_Time1);
+    				if(_Point2.w==1){
+    					temp1.y+= gety(temp1.xz,_Point2.xyz,_Time2);
+    					temp2.y+= gety(temp2.xz,_Point2.xyz,_Time2);
+    				}
+    			}
+    				
+    			return cross((temp1-loc), (temp2-loc));
 	  }
 
-      	void vert (inout appdata_full v){
-      		v2f newvert;
-      		float2 dif;
-      		
-      		newvert.pos = v.vertex;
-      		if(_Point1.w==1){
-      			v.vertex.y = gety(v.vertex.xz,_Point1.xyz);
-      			v.normal = getnorm(v.vertex,_Point1.xyz);
-      		}
-      		else{
-      			v.vertex.y = _Point1.z;
-      		}
-      	}
-      		
-
- 	  half4 LightingSimpleSpecular (SurfaceOutput s, half3 lightDir, half3 viewDir, half atten) {
-          half3 h = normalize (lightDir + viewDir);
-
-          half diff = max (0, dot (s.Normal, lightDir));
-
-          float nh = max (0, dot (s.Normal, h));
-          float spec = pow (nh, 48.0);
-
-          half4 c;
-          c.rgb = (s.Albedo * _LightColor0.rgb * diff + _LightColor0.rgb * spec) * (atten * 2);
-          c.a = s.Alpha;
-          return c;
-      }
-
-	  
-
-      void surf (Input IN, inout SurfaceOutput o) {
-          o.Albedo = tex2D (_MainTex, IN.uv_MainTex).rgb;
-          o.Specular = tex2D (_MainTex, IN.uv_MainTex).a;
-          o.Alpha = tex2D (_MainTex, IN.uv_MainTex).a;
-          
-      }
-
-      ENDCG
+v2f vert (appdata_base v)
+{
+    v2f o;
+    float temp = 1;//gety(v.vertex.xz,_Point1.xyz);
+    float4 tempv =v.vertex;
+    if(_Point1.w==1){
+    	tempv.y= gety(v.vertex.xz,_Point1.xyz,_Time1);
+    	if(_Point2.w==1){
+    		tempv.y+= gety(v.vertex.xz,_Point2.xyz,_Time2);
+    	}
     }
-    Fallback "Specular"
-  }
+    o.pos = mul(UNITY_MATRIX_MVP,tempv);
+    o.uv =  TRANSFORM_TEX (v.texcoord, _MainTex);
+    o.varyingNormalDirection = mul(UNITY_MATRIX_MVP, float4(normalize(getnorm(tempv)),1)).xyz;
+    o.eyedir = mul(UNITY_MATRIX_MV,float4(tempv.xyz,1));
+    return o;
+}
+
+half4 frag (v2f i) : COLOR
+{
+	float3 normalDirection = i.varyingNormalDirection + tex2D(_BumpMap, i.uv).xyz;
+	
+	
+    float3 spec = max(0.0, dot(normalize(normalDirection),normalize(i.eyedir.xyz)));
+    spec = tex2D(_MainTex,i.uv).rgb *spec+tex2D(_MainTex,i.uv).rgb/2;
+    if(spec.r>1 || spec.g>1 || spec.b>1)
+    	spec = spec-tex2D(_MainTex,i.uv).rgb/2;
+    return float4(spec,0.5);
+}
+ENDCG
+
+    }
+}
+Fallback "VertexLit"
+} 
