@@ -16,6 +16,7 @@ public class SpawnScript : MonoBehaviour {
 	public GameObject refCamera;
 	ObjectManagerScript getSpeedScript;
 	public Transform prefabObstacle;
+	public Transform prefabGlow;
 	
 	
 	// Use this for initialization
@@ -63,7 +64,15 @@ public class SpawnScript : MonoBehaviour {
 		// obstacle created, new countdown starts
 		if(waitTime <= 0.0f && numCycles < 10)
 		{
-			Instantiate (prefabObstacle, transform.position, Quaternion.identity);
+			
+			if(Random.Range(0,3) > 0)
+			{
+				Instantiate (prefabObstacle, transform.position, Quaternion.identity);
+			}
+			else
+			{
+				Instantiate (prefabGlow, transform.position, Quaternion.identity);
+			}
 			waitTime = gameSpeed * 4.0f;
 			--numCycles;
 			if(numCycles <= 0)
