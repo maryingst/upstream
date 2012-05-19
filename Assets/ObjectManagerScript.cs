@@ -16,6 +16,7 @@ public class ObjectManagerScript : MonoBehaviour {
 	
 	public float gameSpeed;
 	private HeroFishScript script;
+	private bool submitted;
 	
 	//Hero Object
 	public GameObject Fish;
@@ -27,7 +28,11 @@ public class ObjectManagerScript : MonoBehaviour {
 	public GameObject Healthmeter;
 	//Hurt Music
 	public AudioSource Hurt;
-
+	//High Scores
+	public GameObject HighScoreList;
+	HighScoreScript highscores;
+	
+	string name;
 	
 	// Use this for initialization
 	void Start () {
@@ -39,11 +44,15 @@ public class ObjectManagerScript : MonoBehaviour {
 		CircleUID = 0;
 		CurrentCircle = null;
 		gameSpeed = 1.0f;
+		submitted = false;
+		name = "Enter Name";
 		script = Fish.GetComponent("HeroFishScript") as HeroFishScript;
+		highscores = HighScoreList.GetComponent("HighScoreScript") as HighScoreScript;
 	}
 	
 	void OnGUI () {
-		if(script.GetHealth()==0){
+		
+		if(script.GetHealth()==0 && !submitted){
 			if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/2-20,120,40),new GUIContent ("Restart"))){
 				 Application.LoadLevel("Upstream");
 			}
@@ -53,7 +62,37 @@ public class ObjectManagerScript : MonoBehaviour {
 			if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/2+80,120,40),new GUIContent ("Exit"))){
 				 Application.Quit();
 			}
+			if(highscores.IsTopScore(script.GetScore())){
+				name = GUI.TextField (new Rect (Screen.width/2-60, Screen.height/2-100, 120, 20), name, 20);
+				if(GUI.Button (new Rect(Screen.width/2-60,Screen.height/2-70,120,40),new GUIContent("Submit Score"))){
+					highscores.InsertScore(script.GetScore(),name);
+					submitted=true;
+				}
+			}
 		}
+		else if(submitted){
+			List<Score> Scores = highscores.GetAllScores();
+			string names ="";
+			string numbers = "";
+			int index = 1;
+			foreach(Score entry in Scores){
+				names = names + index.ToString() + ". " + entry.name + "\n";
+				numbers = numbers + entry.score.ToString() + "\n";
+				index++;
+			}
+			GUI.Box(new Rect (Screen.width/4,Screen.height/8,120,400),names);
+			GUI.Box(new Rect (Screen.width/2,Screen.height/8,120,400),numbers);
+			if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/8+410,120,40),new GUIContent ("Restart"))){
+				 Application.LoadLevel("Upstream");
+			}
+			if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/8+460,120,40),new GUIContent ("Menu"))){
+				 Application.LoadLevel("Menu");
+			}
+			if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/8+510,120,40),new GUIContent ("Exit"))){
+				 Application.Quit();
+			}
+		}
+				
 		GUIStyle mystyle = new GUIStyle();
 		mystyle.fontSize = 20;
 		GUI.Box (new Rect (3*Screen.width/4, 5, 100, 40), script.GetScore ().ToString(),mystyle);
@@ -76,7 +115,7 @@ public class ObjectManagerScript : MonoBehaviour {
 		
 		Healthmeter.renderer.material.mainTextureScale = new Vector2(script.GetHealth()/10.0f,1);
 		Healthmeter.transform.localScale = new Vector3(2.5f-((100.0f-script.GetHealth())/40.0f),1,0.5f);
-		Healthmeter.transform.position = new Vector3(-85-1.3f*(100.0f-script.GetHealth())/10.0f,68,25);
+		Healthmeter.transform.position = new Vector3(-75-1.3f*(100.0f-script.GetHealth())/10.0f,135,25);
 		
 		if(script.GetHealth()==0 && !Hurt.isPlaying)
 			Hurt.Play();
@@ -108,7 +147,7 @@ public class ObjectManagerScript : MonoBehaviour {
 			
 			Circlometer.renderer.material.mainTextureScale = new Vector2(5-Circles.Count,1);
 			Circlometer.transform.localScale = new Vector3(5-Circles.Count,1,1);
-			Circlometer.transform.position = new Vector3(-74-5.0f*(Circles.Count),-68,25);
+			Circlometer.transform.position = new Vector3(-60-5.0f*(Circles.Count),-135,25);
 		}
 	}
 	
@@ -138,7 +177,7 @@ public class ObjectManagerScript : MonoBehaviour {
 					Circles.RemoveAt(count);
 					Circlometer.renderer.material.mainTextureScale = new Vector2(5-Circles.Count,1);
 					Circlometer.transform.localScale = new Vector3(5-Circles.Count,1,1);
-					Circlometer.transform.position = new Vector3(-74-5.0f*(Circles.Count),-68,25);
+					Circlometer.transform.position = new Vector3(-60-5.0f*(Circles.Count),-135,25);
 					break;
 				}
 				
@@ -162,7 +201,7 @@ public class ObjectManagerScript : MonoBehaviour {
 				Circles.RemoveAt(count);
 				Circlometer.renderer.material.mainTextureScale = new Vector2(5-Circles.Count,1);
 				Circlometer.transform.localScale = new Vector3(5-Circles.Count,1,1);
-				Circlometer.transform.position = new Vector3(-74-5.0f*(Circles.Count),-68,25);
+				Circlometer.transform.position = new Vector3(-60-5.0f*(Circles.Count),-135,25);
 				break;
 			}
 			

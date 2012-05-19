@@ -111,7 +111,8 @@ public class HeroFishScript : AnimatedScript {
 	
 	private void AddScore(int score)
 	{
-		totalScore += score;	
+		if(health>0)
+			totalScore += score;	
 	}
 	
 	private void ApplyDamage(int damage){
