@@ -80,7 +80,7 @@ public class ObjectManagerScript : MonoBehaviour {
 				numbers = numbers + entry.score.ToString() + "\n";
 				index++;
 			}
-			GUI.Box(new Rect (Screen.width/4,Screen.height/8,120,400),names);
+			GUI.Box(new Rect (Screen.width/2-110,Screen.height/8,120,400),names);
 			GUI.Box(new Rect (Screen.width/2,Screen.height/8,120,400),numbers);
 			if(GUI.Button(new Rect (Screen.width/2-60,Screen.height/8+410,120,40),new GUIContent ("Restart"))){
 				 Application.LoadLevel("Upstream");

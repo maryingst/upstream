@@ -107,8 +107,8 @@ public class RippleWaterScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//LoadRipples();
-		//LoadMesh ();
+		LoadRipples();
+		LoadMesh ();
 		CullRipple();
 		
 		if(getSpeedScript)
